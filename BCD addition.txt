@@ -1,4 +1,4 @@
-BCD addition
+Normal addition
 
 .model small
 .stack 100h
