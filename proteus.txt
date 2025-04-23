@@ -1,0 +1,49 @@
+proteus 
+required: 8086 , 74HC373 , 8255A , 7SEG-MPX1-CA , logicstates(2)
+
+DATA SEGMENT
+PORTA EQU 00H
+PORTB EQU 02H
+PORTC EQU 04H
+PORT_CTRL EQU 06H
+DATA ENDS
+
+CODE SEGMENT
+    MOV AX, DATA
+    MOV DS, AX
+
+    ORG 0000H
+
+START:
+    MOV AL, 80H              ; Control word for 8255: Port A = Output
+    OUT PORT_CTRL, AL        ; Send control word to Control register
+
+    MOV AL, 1000000B         ; Display digit 0
+    OUT PORTA, AL            ; Send it to Port A (connected to 7-seg)
+
+    MOV SI, 0                ; Index for loop start
+
+LOOP1:
+    MOV AL, LIST[SI]         ; Load segment pattern from list
+    OUT PORTA, AL            ; Output to Port A
+    CALL DELAY               ; Delay (if implemented separately)
+    INC SI                   ; Move to next digit
+    CMP SI, 0AH              ; Compare with 10 (digits 0–9)
+    JNZ LOOP1                ; Loop until 10 digits are displayed
+
+    HLT                      ; Halt execution
+
+LIST:
+    DB 11000000B             ; 0
+    DB 11111001B             ; 1
+    DB 10100100B             ; 2
+    DB 10110000B             ; 3
+    DB 10011001B             ; 4
+    DB 10010010B             ; 5
+    DB 10000010B             ; 6
+    DB 11111000B             ; 7
+    DB 10000000B             ; 8
+    DB 10010000B             ; 9
+
+CODE ENDS
+END

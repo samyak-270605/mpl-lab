@@ -1,0 +1,31 @@
+fact
+
+.model small
+.stack 100h
+
+.data
+    n       dw 5       ; Number to calculate factorial of (5 in this case)
+    result  dw 1       ; To store final factorial result (initially 1)
+
+.code
+main:
+    mov ax, @data      ; Initialize data segment
+    mov ds, ax
+    call factorial     ; Call the procedure to calculate factorial
+    mov ah, 4ch        ; DOS interrupt to exit
+    int 21h
+
+factorial proc
+    mov cx, n
+    mov ax, 1
+fact_loop:
+    mul cx
+    dec cx
+    cmp cx, 1
+    jge fact_loop
+
+    mov result, ax
+    ret
+factorial endp
+
+end main

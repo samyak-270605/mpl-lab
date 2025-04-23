@@ -1,0 +1,37 @@
+pack->unpack
+
+.model small
+.stack 100h
+
+.data
+    packedBCD db 45h       ; Packed BCD input (two digits)
+    tens      db ?         ; Output: Unpacked tens digit
+    units     db ?         ; Output: Unpacked units digit
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+    ; Load packed BCD into AL
+    mov al, packedBCD
+
+    ; Extract low nibble (units)
+    and al, 0Fh            ; Mask upper nibble, AL = 05h
+    mov units, al          ; Store units digit
+
+    ; Reload original packed BCD
+    mov al, packedBCD
+    mov cx, 4              ; Shift count = 4 (for nibble)
+
+    ; Extract high nibble (tens)
+    and al, F0h            ; Mask lower nibble, AL = 40h
+    shr al, cx             ; Shift right 4 bits, AL = 04h
+    mov tens, al           ; Store tens digit
+
+    ; Exit program
+    mov ah, 4Ch
+    int 21h
+
+end main
+

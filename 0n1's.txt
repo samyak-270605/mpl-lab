@@ -1,0 +1,42 @@
+0n1's
+
+.model small
+.stack 100h
+.data
+    num db 0Fh      ; 8-bit number (example: 00001111)
+    count1 db 0     ; to store number of 1's
+    count0 db 0     ; to store number of 0's
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+    mov cl, 8        ; loop counter (8 bits)
+    mov al, num      ; move number to AL
+
+    mov bl, 0        ; count of 1's
+    mov bh, 0        ; count of 0's
+
+check_bit:
+    ror al, 1        ; rotate right, bit goes to carry
+    jc is_one        ; if carry is set, it's a 1
+
+    ; It's a 0
+    inc bh
+    jmp next_bit
+
+is_one:
+    inc bl
+
+next_bit:
+    dec cl
+    jnz check_bit
+
+    ; store results
+    mov count1, bl
+    mov count0, bh
+
+    mov ah, 4ch
+    int 21h
+end main

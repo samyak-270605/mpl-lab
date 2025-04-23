@@ -1,0 +1,45 @@
+oddeven
+
+.model small
+.stack 100h
+
+.data
+    nums    db 10h, 23h, 4Eh, 7Fh, 0Ah   ; 5 input numbers
+    even    db 5 dup(?)                 ; empty space for even numbers
+    odd     db 5 dup(?)                 ; empty space for odd numbers
+    even_count db 0                     ; counter for even numbers
+    odd_count  db 0                     ; counter for odd numbers
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax                         ; setup data segment
+
+    lea si, nums                       ; SI points to the first number in nums
+    lea di, even                       ; DI points to the even numbers array
+    lea bx, odd                        ; BX points to the odd numbers array
+    mov cx, 5                          ; 5 numbers to check
+
+check_loop:
+    mov al, [si]                       ; load current number from nums into AL
+    test al, 1                         ; test if the last bit is 0 or 1 (even or odd)
+    jz  store_even                     ; if last bit is 0, it’s even → jump to store_even
+
+    ; If not even, it is odd:
+    mov [bx], al                       ; store the number in the odd array
+    inc bx                             ; move to next position in odd array
+    inc odd_count                      ; increase odd counter
+    jmp next                           ; skip storing in even, go to next number
+
+store_even:
+    mov [di], al                       ; store the number in the even array
+    inc di                             ; move to next position in even array
+    inc even_count                     ; increase even counter
+
+next:
+    inc si                             ; move to next number in nums
+    loop check_loop                    ; CX = CX - 1 → if not zero, repeat loop
+
+    mov ah, 4ch
+    int 21h                            ; exit program (DOS interrupt)
+end main

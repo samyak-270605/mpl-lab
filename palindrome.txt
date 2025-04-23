@@ -1,0 +1,51 @@
+palindrome
+
+.model small
+.stack 100h
+.data
+    string db 'madam', 0  
+    palindrome_msg db 13,10, 'Palindrome$'
+    not_palindrome_msg db 13,10, 'Not Palindrome$'
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+    lea si, string       ; Start pointer
+    lea di, string
+find_end:
+    cmp byte ptr [di], 0 ; Find null terminator
+    je check_palindrome
+    inc di
+    jmp find_end
+
+check_palindrome:
+    dec di               ; Point to last character
+
+pal_loop:
+    cmp si, di
+    jge is_palindrome    ; If pointers meet or cross
+
+    mov al, [si]
+    mov bl, [di]
+    cmp al, bl
+    jne not_palindrome
+
+    inc si
+    dec di
+    jmp pal_loop
+
+is_palindrome:
+    lea dx, palindrome_msg
+    jmp show_result
+
+not_palindrome:
+    lea dx, not_palindrome_msg
+
+show_result:
+    mov ah, 09h
+    int 21h
+
+    mov ah, 4Ch
+    int 21h
+end main

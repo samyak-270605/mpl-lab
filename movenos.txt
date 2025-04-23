@@ -1,0 +1,27 @@
+movenos
+
+.model small
+.stack 100h
+.data
+    source      db 10h, 20h, 30h, 40h, 50h  ; 5 numbers (in HEX)
+    destination db 5 dup(?)                ; empty memory for 5 numbers
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+    lea si, source        ; SI points to the start of source array
+    lea di, destination   ; DI points to the start of destination array
+    mov cx, 5             ; We want to copy 5 values → loop counter
+
+copy_loop:
+    mov al, [si]          ; Load byte from source (using SI)
+    mov [di], al          ; Store that byte in destination (using DI)
+    inc si                ; Move to next byte in source
+    inc di                ; Move to next byte in destination
+    loop copy_loop        ; Repeat until all 5 values copied (CX = 0)
+
+    mov ah, 4ch           ; Exit program (DOS interrupt)
+    int 21h
+end main
