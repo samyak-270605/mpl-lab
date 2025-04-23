@@ -9,3 +9,5 @@ hrd - https://docs.google.com/document/d/1hT9l6U3glpjvAi27yFImkSx-N_7JHWIrwqehvi
 stk - https://github.com/shrutik-gupta/SEM4-LABS
 
 sam - https://github.com/samyak-270605/mpl-lab
+
+shrib - https://shrib.com/#mplpentium
