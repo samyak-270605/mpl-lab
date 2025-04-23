@@ -1,0 +1,11 @@
+Reference
+
+tasm filename.asm
+tlink filename.obj
+td filename
+
+hrd - https://docs.google.com/document/d/1hT9l6U3glpjvAi27yFImkSx-N_7JHWIrwqehvixwJus/edit?tab=t.0
+
+stk - https://github.com/shrutik-gupta/SEM4-LABS
+
+sam - https://github.com/samyak-270605/mpl-lab
