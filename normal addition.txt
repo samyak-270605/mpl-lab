@@ -1,0 +1,22 @@
+normal addition
+
+.model small
+.stack 100h
+
+.data
+    num1 dw 1234h
+    num2 dw 0ABCDh
+    result dw ?
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, num1
+    add ax, num2
+    mov result, ax
+
+    mov ah, 4Ch
+    int 21h
+end main
