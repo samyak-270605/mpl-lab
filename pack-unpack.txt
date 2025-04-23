@@ -22,11 +22,11 @@ main:
 
     ; Reload original packed BCD
     mov al, packedBCD
-    mov cx, 4              ; Shift count = 4 (for nibble)
+    mov cl, 4              ; Shift count = 4 (for nibble)
 
     ; Extract high nibble (tens)
     and al, F0h            ; Mask lower nibble, AL = 40h
-    shr al, cx             ; Shift right 4 bits, AL = 04h
+    shr al, cl             ; Shift right 4 bits, AL = 04h
     mov tens, al           ; Store tens digit
 
     ; Exit program
