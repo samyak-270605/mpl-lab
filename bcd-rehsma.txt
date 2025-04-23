@@ -4,18 +4,19 @@ a dw 3629H
 b dw 4738H
 .code
 start:
-mov ax, @data
-mov ds, ax
+    mov ax, @data
+    mov ds, ax
 
-mov ax, a
-mov bx, b
-add al, bl
-daa
-mov bl, al
-adc ah, bh
-mov al, ah
-daa
-mov bh, al
+    mov ax, a
+    mov bx, b
+    add al, bl
+    daa
+    mov dl, al
 
-int 21h
+    adc ah, bh
+    daa
+    mov dh, ah
+
+    mov ah, 4Ch
+    int 21h
 end start
